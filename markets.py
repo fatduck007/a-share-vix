@@ -21,16 +21,16 @@ UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.3
 # (分组, 显示名, Yahoo 代码候选)
 # 代码前缀 em: 表示东方财富日线（带成交额，A股/港股用），其余为 Yahoo
 SYMBOLS = [
-    ("A股", "上证指数", ["em:1.000001", "000001.SS"]),
-    ("A股", "深证成指", ["em:0.399001", "399001.SZ"]),
-    ("A股", "创业板指", ["em:0.399006", "399006.SZ"]),
-    ("A股", "沪深300", ["em:1.000300", "000300.SS"]),
-    ("A股", "科创50", ["em:1.000688", "000688.SS"]),
-    ("A股", "中证1000", ["em:1.000852", "000852.SS"]),
-    ("港股", "恒生指数", ["em:100.HSI", "^HSI"]),
-    ("港股", "恒生科技", ["em:124.HSTECH", "em:100.HSTECH"]),
-    ("港股", "国企指数", ["em:100.HSCEI", "^HSCE"]),
-    ("港股", "恒生医疗保健", ["em:124.HSHCI", "em:100.HSHCI"]),
+    ("A股", "上证指数", ["qq:sh000001", "em:1.000001", "000001.SS"]),
+    ("A股", "深证成指", ["qq:sz399001", "em:0.399001", "399001.SZ"]),
+    ("A股", "创业板指", ["qq:sz399006", "em:0.399006"]),
+    ("A股", "沪深300", ["qq:sh000300", "em:1.000300"]),
+    ("A股", "科创50", ["qq:sh000688", "em:1.000688"]),
+    ("A股", "中证1000", ["qq:sh000852", "em:1.000852"]),
+    ("港股", "恒生指数", ["qq:hkHSI", "em:100.HSI", "^HSI"]),
+    ("港股", "恒生科技", ["qq:hkHSTECH", "em:124.HSTECH"]),
+    ("港股", "国企指数", ["qq:hkHSCEI", "em:100.HSCEI", "^HSCE"]),
+    ("港股", "恒生医疗保健", ["qq:hkHSHCI", "em:124.HSHCI"]),
     ("美股", "标普500", ["^GSPC"]),
     ("美股", "纳斯达克综合", ["^IXIC"]),
     ("美股", "道琼斯", ["^DJI"]),
@@ -68,9 +68,9 @@ def em_daily(secid: str) -> pd.DataFrame:
     params = {"secid": secid, "klt": "101", "fqt": "1", "lmt": "520", "end": "20500101",
               "fields1": "f1,f2,f3,f4,f5,f6", "fields2": "f51,f52,f53,f54,f55,f56,f57"}
     last = None
-    for attempt in range(5):  # 东方财富连续请求会断开连接，间隔重试
+    for attempt in range(2):  # 东方财富对海外服务器限流严重，只作备用
         try:
-            time.sleep(2 + attempt * 4)
+            time.sleep(2 + attempt * 3)
             r = requests.get(url, params=params, headers={**UA, "Connection": "close"}, timeout=30)
             r.raise_for_status()
             kl = (r.json().get("data") or {}).get("klines") or []
@@ -87,8 +87,28 @@ def em_daily(secid: str) -> pd.DataFrame:
     return df[["close", "volume"]].dropna(subset=["close"])
 
 
+def qq_daily(code: str) -> pd.DataFrame:
+    """腾讯行情日K：[日期, 开, 收, 高, 低, 成交量, ...]，成交量用于放量缩量比较。"""
+    url = "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get"
+    r = requests.get(url, params={"param": f"{code},day,,,520,"}, headers=UA, timeout=30)
+    r.raise_for_status()
+    node = (r.json().get("data") or {}).get(code) or {}
+    rows = node.get("day") or node.get("qfqday") or []
+    if not rows:
+        raise ValueError("腾讯无数据")
+    df = pd.DataFrame([x[:6] for x in rows], columns=["date", "open", "close", "high", "low", "vol"])
+    df["close"] = pd.to_numeric(df["close"], errors="coerce")
+    df["volume"] = pd.to_numeric(df["vol"], errors="coerce")
+    df.index = pd.to_datetime(df["date"]).dt.date
+    return df[["close", "volume"]].dropna(subset=["close"])
+
+
 def fetch(sym: str) -> pd.DataFrame:
-    return em_daily(sym[3:]) if sym.startswith("em:") else yahoo_daily(sym)
+    if sym.startswith("qq:"):
+        return qq_daily(sym[3:])
+    if sym.startswith("em:"):
+        return em_daily(sym[3:])
+    return yahoo_daily(sym)
 
 
 def pct(a, b):
