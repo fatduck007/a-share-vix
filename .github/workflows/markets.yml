@@ -1,0 +1,39 @@
+name: 三地股指与宏观指标每日更新
+
+on:
+  schedule:
+    # UTC 21:12 周一至周五：美股收盘后（夏令时20:00、冬令时21:00 UTC 收盘），此时 A股、港股当天也已收盘
+    - cron: "12 21 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: markets
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python markets.py
+      - name: 提交结果
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "没有新数据"
+          else
+            git commit -m "markets: $(date -u +%F)"
+            git pull --rebase
+            git push
+          fi
