@@ -67,9 +67,18 @@ def em_daily(secid: str) -> pd.DataFrame:
     url = "https://push2his.eastmoney.com/api/qt/stock/kline/get"
     params = {"secid": secid, "klt": "101", "fqt": "1", "lmt": "520", "end": "20500101",
               "fields1": "f1,f2,f3,f4,f5,f6", "fields2": "f51,f52,f53,f54,f55,f56,f57"}
-    r = requests.get(url, params=params, headers=UA, timeout=30)
-    r.raise_for_status()
-    kl = (r.json().get("data") or {}).get("klines") or []
+    last = None
+    for attempt in range(5):  # 东方财富连续请求会断开连接，间隔重试
+        try:
+            time.sleep(2 + attempt * 4)
+            r = requests.get(url, params=params, headers={**UA, "Connection": "close"}, timeout=30)
+            r.raise_for_status()
+            kl = (r.json().get("data") or {}).get("klines") or []
+            break
+        except Exception as e:  # noqa
+            last = e
+    else:
+        raise last
     rows = [k.split(",") for k in kl]
     df = pd.DataFrame(rows, columns=["date", "open", "close", "high", "low", "vol", "amount"])
     df["close"] = pd.to_numeric(df["close"], errors="coerce")
@@ -140,6 +149,19 @@ def fred_series(sid: str) -> pd.Series:
     return s.dropna()
 
 
+def epu_official() -> pd.Series:
+    url = "https://www.policyuncertainty.com/media/All_Daily_Policy_Data.csv"
+    r = requests.get(url, headers=UA, timeout=60)
+    r.raise_for_status()
+    df = pd.read_csv(StringIO(r.text))
+    df = df.dropna(subset=["day", "month", "year"])
+    idx = pd.to_datetime(dict(year=df.year.astype(int), month=df.month.astype(int), day=df.day.astype(int))).dt.date
+    col = [c for c in df.columns if "index" in c.lower() or "policy" in c.lower()][0]
+    s = pd.to_numeric(df[col], errors="coerce")
+    s.index = idx
+    return s.dropna()
+
+
 def main():
     os.makedirs(DATA, exist_ok=True)
     out = {"generated_utc": dt.datetime.utcnow().strftime("%Y-%m-%d %H:%M"), "series": {}, "errors": []}
@@ -175,9 +197,13 @@ def main():
     except Exception as e:  # noqa
         out["errors"].append(f"两市成交额: {e}")
 
-    # 美国经济政策不确定性指数（日度，Baker-Bloom-Davis），FRED: USEPUINDXD
+    # 美国经济政策不确定性指数（日度，Baker-Bloom-Davis）：先试官网 CSV，再试 FRED: USEPUINDXD
     try:
-        s = fred_series("USEPUINDXD")
+        try:
+            s = epu_official()
+        except Exception as e0:  # noqa
+            out["errors"].append(f"EPU官网: {e0}")
+            s = fred_series("USEPUINDXD")
         last250 = s.iloc[-365:]
         out["series"]["美国经济政策不确定性EPU(日度)"] = {
             "group": "不确定性", "symbol": "FRED:USEPUINDXD", "date": str(s.index[-1]),
