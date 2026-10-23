@@ -146,6 +146,9 @@ def summarize(df: pd.DataFrame) -> dict:
         out["vol_vs_5d_avg"] = round(float(vv.iloc[-1] / vv.iloc[-6:-1].mean()), 2) if vv.iloc[-6:-1].mean() > 0 else None
         out["vol_vs_20d_avg"] = round(float(vv.iloc[-1] / vv.iloc[-21:-1].mean()), 2)
         out["vol_5d_vs_20d"] = round(float(vv.iloc[-5:].mean() / vv.iloc[-25:-5].mean()), 2) if len(vv) >= 25 and vv.iloc[-25:-5].mean() > 0 else None
+        if out["vol_vs_20d_avg"] < 0.05:  # 该指数没有可靠的成交量数据
+            for k in ["vol_last", "vol_vs_5d_avg", "vol_vs_20d_avg", "vol_5d_vs_20d"]:
+                out.pop(k, None)
     return out
 
 
