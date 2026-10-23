@@ -1,153 +1,167 @@
 {
- "generated_utc": "2026-10-23 04:41",
+ "generated_utc": "2026-10-23 04:43",
  "series": {
   "上证指数": {
    "date": "2026-10-23",
-   "close": 3614.123,
+   "close": 3614.12,
    "chg_1d_pct": -1.2,
    "chg_5d_pct": -2.75,
    "chg_21d_pct": -7.13,
-   "ma20": 3800.0662,
-   "ma60": 3870.2945,
-   "low_52w": 3614.123,
-   "high_52w": 4242.5718,
+   "ma20": 3800.0655,
+   "ma60": 3870.2938,
+   "low_52w": 3614.12,
+   "high_52w": 4242.57,
    "pos_52w_pct": 0.0,
    "is_52w_low": true,
    "last5": [
-    3730.9199,
-    3735.3701,
-    3713.0281,
-    3658.0259,
-    3614.123
+    3730.92,
+    3735.37,
+    3713.03,
+    3658.03,
+    3614.12
    ],
-   "vol_last": 1882346028.0,
-   "vol_vs_5d_avg": 4449.78,
-   "vol_vs_20d_avg": 4113.38,
-   "vol_5d_vs_20d": 797.64,
+   "vol_last": 487505787649.3,
+   "vol_vs_5d_avg": 0.7,
+   "vol_vs_20d_avg": 0.62,
+   "vol_5d_vs_20d": 0.79,
    "group": "A股",
-   "symbol": "000001.SS"
+   "symbol": "em:1.000001",
+   "volume_unit": "成交额(元)"
   },
   "深证成指": {
    "date": "2026-10-23",
-   "close": 11175.8525,
+   "close": 11175.85,
    "chg_1d_pct": -1.6,
    "chg_5d_pct": -5.31,
    "chg_21d_pct": -16.94,
-   "ma20": 12514.1697,
-   "ma60": 13415.1577,
-   "low_52w": 11175.8525,
+   "ma20": 12514.1695,
+   "ma60": 13415.1575,
+   "low_52w": 11175.85,
    "high_52w": 16372.5,
    "pos_52w_pct": 0.0,
    "is_52w_low": true,
    "last5": [
-    11817.4199,
+    11817.42,
     11801.29,
-    11704.3496,
-    11357.3203,
-    11175.8525
+    11704.35,
+    11357.32,
+    11175.85
    ],
-   "vol_last": 3397668019.0,
-   "vol_vs_5d_avg": 2221.25,
-   "vol_vs_20d_avg": 2057.59,
-   "vol_5d_vs_20d": 407.04,
+   "vol_last": 580507871275.32,
+   "vol_vs_5d_avg": 0.74,
+   "vol_vs_20d_avg": 0.66,
+   "vol_5d_vs_20d": 0.81,
    "group": "A股",
-   "symbol": "399001.SZ"
+   "symbol": "em:0.399001",
+   "volume_unit": "成交额(元)"
   },
-  "恒生指数": {
+  "创业板指": {
    "date": "2026-10-23",
-   "close": 23066.7891,
-   "chg_1d_pct": 0.58,
-   "chg_5d_pct": -4.14,
-   "chg_21d_pct": -8.06,
-   "ma20": 24108.6309,
-   "ma60": 24964.1882,
-   "low_52w": 22671.8594,
-   "high_52w": 27968.0898,
-   "pos_52w_pct": 7.5,
-   "is_52w_low": false,
-   "last5": [
-    24186.8301,
-    23867.7402,
-    23651.8691,
-    22934.6797,
-    23066.7891
-   ],
-   "group": "港股",
-   "symbol": "^HSI"
-  },
-  "恒生科技": {
-   "date": "2026-10-23",
-   "close": 3.754,
-   "chg_1d_pct": -4.28,
-   "chg_5d_pct": -8.13,
-   "chg_21d_pct": -13.46,
-   "ma20": 4.0853,
-   "ma60": 4.3842,
-   "low_52w": 3.754,
-   "high_52w": 6.05,
+   "close": 2521.77,
+   "chg_1d_pct": -2.14,
+   "chg_5d_pct": -9.04,
+   "chg_21d_pct": -23.85,
+   "ma20": 2998.0875,
+   "ma60": 3289.947,
+   "low_52w": 2521.77,
+   "high_52w": 4371.99,
    "pos_52w_pct": 0.0,
    "is_52w_low": true,
    "last5": [
-    3.982,
-    4.028,
-    3.978,
-    3.922,
-    3.754
+    2746.29,
+    2739.2,
+    2694.71,
+    2576.9,
+    2521.77
    ],
-   "vol_last": 1557516729.0,
-   "vol_vs_5d_avg": 1.05,
-   "vol_vs_20d_avg": 1.1,
-   "vol_5d_vs_20d": 1.03,
+   "vol_last": 285411154776.87,
+   "vol_vs_5d_avg": 0.74,
+   "vol_vs_20d_avg": 0.67,
+   "vol_5d_vs_20d": 0.84,
+   "group": "A股",
+   "symbol": "em:0.399006",
+   "volume_unit": "成交额(元)"
+  },
+  "沪深300": {
+   "date": "2026-10-23",
+   "close": 4014.6,
+   "chg_1d_pct": -0.54,
+   "chg_5d_pct": -3.74,
+   "chg_21d_pct": -10.39,
+   "ma20": 4291.326,
+   "ma60": 4495.8943,
+   "low_52w": 4014.6,
+   "high_52w": 5059.66,
+   "pos_52w_pct": 0.0,
+   "is_52w_low": true,
+   "last5": [
+    4174.53,
+    4152.11,
+    4111.93,
+    4036.3,
+    4014.6
+   ],
+   "vol_last": 289571775426.9,
+   "vol_vs_5d_avg": 0.73,
+   "vol_vs_20d_avg": 0.68,
+   "vol_5d_vs_20d": 0.86,
+   "group": "A股",
+   "symbol": "em:1.000300",
+   "volume_unit": "成交额(元)"
+  },
+  "恒生指数": {
+   "date": "2026-10-23",
+   "close": 23066.79,
+   "chg_1d_pct": 0.58,
+   "chg_5d_pct": -4.14,
+   "chg_21d_pct": -8.06,
+   "ma20": 24108.631,
+   "ma60": 24964.1882,
+   "low_52w": 22671.86,
+   "high_52w": 27968.09,
+   "pos_52w_pct": 7.5,
+   "is_52w_low": false,
+   "last5": [
+    24186.83,
+    23867.74,
+    23651.87,
+    22934.68,
+    23066.79
+   ],
+   "vol_last": 125647970304.0,
+   "vol_vs_5d_avg": 0.61,
+   "vol_vs_20d_avg": 0.74,
+   "vol_5d_vs_20d": 1.05,
    "group": "港股",
-   "symbol": "3033.HK"
+   "symbol": "em:100.HSI",
+   "volume_unit": "成交额(元)"
   },
   "国企指数": {
    "date": "2026-10-23",
-   "close": 7760.3999,
+   "close": 7760.4,
    "chg_1d_pct": 0.93,
    "chg_5d_pct": -4.23,
    "chg_21d_pct": -7.2,
    "ma20": 8084.0395,
    "ma60": 8321.592,
-   "low_52w": 7460.8398,
-   "high_52w": 9599.0596,
+   "low_52w": 7460.84,
+   "high_52w": 9599.06,
    "pos_52w_pct": 14.0,
    "is_52w_low": false,
    "last5": [
     8128.25,
-    8030.2598,
-    7943.4102,
-    7689.1899,
-    7760.3999
+    8030.26,
+    7943.41,
+    7689.19,
+    7760.4
    ],
+   "vol_last": 43562221824.0,
+   "vol_vs_5d_avg": 0.6,
+   "vol_vs_20d_avg": 0.8,
+   "vol_5d_vs_20d": 1.22,
    "group": "港股",
-   "symbol": "^HSCE"
-  },
-  "恒生医疗保健": {
-   "date": "2026-10-23",
-   "close": 14.4,
-   "chg_1d_pct": -5.94,
-   "chg_5d_pct": -3.94,
-   "chg_21d_pct": -13.31,
-   "ma20": 15.8605,
-   "ma60": 15.6155,
-   "low_52w": 11.95,
-   "high_52w": 16.99,
-   "pos_52w_pct": 48.6,
-   "is_52w_low": false,
-   "last5": [
-    14.82,
-    15.01,
-    15.25,
-    15.31,
-    14.4
-   ],
-   "vol_last": 6898773.0,
-   "vol_vs_5d_avg": 1.03,
-   "vol_vs_20d_avg": 1.29,
-   "vol_5d_vs_20d": 1.3,
-   "group": "港股",
-   "symbol": "3069.HK"
+   "symbol": "em:100.HSCEI",
+   "volume_unit": "成交额(元)"
   },
   "标普500": {
    "date": "2026-10-22",
@@ -173,7 +187,8 @@
    "vol_vs_20d_avg": 1.16,
    "vol_5d_vs_20d": 0.97,
    "group": "美股",
-   "symbol": "^GSPC"
+   "symbol": "^GSPC",
+   "volume_unit": "成交量"
   },
   "纳斯达克综合": {
    "date": "2026-10-22",
@@ -199,7 +214,8 @@
    "vol_vs_20d_avg": 1.14,
    "vol_5d_vs_20d": 1.01,
    "group": "美股",
-   "symbol": "^IXIC"
+   "symbol": "^IXIC",
+   "volume_unit": "成交量"
   },
   "道琼斯": {
    "date": "2026-10-22",
@@ -225,7 +241,8 @@
    "vol_vs_20d_avg": 1.2,
    "vol_5d_vs_20d": 0.94,
    "group": "美股",
-   "symbol": "^DJI"
+   "symbol": "^DJI",
+   "volume_unit": "成交量"
   },
   "费城半导体": {
    "date": "2026-10-22",
@@ -247,7 +264,8 @@
     10731.9805
    ],
    "group": "美股",
-   "symbol": "^SOX"
+   "symbol": "^SOX",
+   "volume_unit": "成交量"
   },
   "纳斯达克生物科技": {
    "date": "2026-10-22",
@@ -269,7 +287,8 @@
     7072.2202
    ],
    "group": "美股",
-   "symbol": "^NBI"
+   "symbol": "^NBI",
+   "volume_unit": "成交量"
   },
   "中概股KWEB": {
    "date": "2026-10-22",
@@ -295,7 +314,8 @@
    "vol_vs_20d_avg": 1.27,
    "vol_5d_vs_20d": 1.19,
    "group": "美股",
-   "symbol": "KWEB"
+   "symbol": "KWEB",
+   "volume_unit": "成交量"
   },
   "VIX": {
    "date": "2026-10-22",
@@ -317,7 +337,8 @@
     19.03
    ],
    "group": "恐慌",
-   "symbol": "^VIX"
+   "symbol": "^VIX",
+   "volume_unit": "成交量"
   },
   "VXN": {
    "date": "2026-10-22",
@@ -339,7 +360,8 @@
     28.72
    ],
    "group": "恐慌",
-   "symbol": "^VXN"
+   "symbol": "^VXN",
+   "volume_unit": "成交量"
   },
   "MOVE美债波动率": {
    "date": "2026-10-22",
@@ -361,7 +383,8 @@
     106.84
    ],
    "group": "恐慌",
-   "symbol": "^MOVE"
+   "symbol": "^MOVE",
+   "volume_unit": "成交量"
   },
   "美国10年期国债收益率": {
    "date": "2026-10-22",
@@ -383,29 +406,31 @@
     4.953
    ],
    "group": "宏观",
-   "symbol": "^TNX"
+   "symbol": "^TNX",
+   "volume_unit": "成交量"
   },
   "美元指数": {
    "date": "2026-10-23",
-   "close": 101.672,
-   "chg_1d_pct": 0.06,
-   "chg_5d_pct": -0.16,
-   "chg_21d_pct": 0.38,
-   "ma20": 101.9281,
-   "ma60": 100.4234,
+   "close": 101.66,
+   "chg_1d_pct": 0.05,
+   "chg_5d_pct": -0.18,
+   "chg_21d_pct": 0.37,
+   "ma20": 101.9275,
+   "ma60": 100.4232,
    "low_52w": 96.22,
    "high_52w": 102.58,
-   "pos_52w_pct": 85.7,
+   "pos_52w_pct": 85.5,
    "is_52w_low": false,
    "last5": [
     101.98,
     101.73,
     101.78,
     101.61,
-    101.672
+    101.66
    ],
    "group": "宏观",
-   "symbol": "DX-Y.NYB"
+   "symbol": "DX-Y.NYB",
+   "volume_unit": "成交量"
   },
   "离岸人民币USD/CNH": {
    "date": "2026-10-23",
@@ -427,16 +452,17 @@
     6.6722
    ],
    "group": "宏观",
-   "symbol": "CNY=X"
+   "symbol": "CNY=X",
+   "volume_unit": "成交量"
   },
   "黄金期货": {
    "date": "2026-10-23",
-   "close": 4020.3999,
-   "chg_1d_pct": -0.99,
-   "chg_5d_pct": -3.84,
-   "chg_21d_pct": -6.46,
-   "ma20": 4155.89,
-   "ma60": 4336.8183,
+   "close": 4019.8999,
+   "chg_1d_pct": -1.0,
+   "chg_5d_pct": -3.86,
+   "chg_21d_pct": -6.47,
+   "ma20": 4155.865,
+   "ma60": 4336.81,
    "low_52w": 3960.5,
    "high_52w": 5318.3999,
    "pos_52w_pct": 4.4,
@@ -446,23 +472,24 @@
     4142.6001,
     4150.0,
     4060.3999,
-    4020.3999
+    4019.8999
    ],
-   "vol_last": 42318.0,
+   "vol_last": 42425.0,
    "vol_vs_5d_avg": 0.29,
    "vol_vs_20d_avg": 0.3,
    "vol_5d_vs_20d": 0.86,
    "group": "宏观",
-   "symbol": "GC=F"
+   "symbol": "GC=F",
+   "volume_unit": "成交量"
   },
   "WTI原油期货": {
    "date": "2026-10-23",
-   "close": 100.17,
-   "chg_1d_pct": 0.7,
-   "chg_5d_pct": -1.22,
-   "chg_21d_pct": 5.88,
-   "ma20": 94.573,
-   "ma60": 90.7443,
+   "close": 100.15,
+   "chg_1d_pct": 0.68,
+   "chg_5d_pct": -1.24,
+   "chg_21d_pct": 5.86,
+   "ma20": 94.572,
+   "ma60": 90.744,
    "low_52w": 55.27,
    "high_52w": 112.95,
    "pos_52w_pct": 77.8,
@@ -472,23 +499,24 @@
     101.79,
     97.15,
     99.47,
-    100.17
+    100.15
    ],
-   "vol_last": 27294.0,
+   "vol_last": 27414.0,
    "vol_vs_5d_avg": 0.11,
    "vol_vs_20d_avg": 0.1,
    "vol_5d_vs_20d": 0.81,
    "group": "宏观",
-   "symbol": "CL=F"
+   "symbol": "CL=F",
+   "volume_unit": "成交量"
   },
   "比特币": {
    "date": "2026-10-23",
-   "close": 81586.8672,
+   "close": 81586.9375,
    "chg_1d_pct": -2.89,
    "chg_5d_pct": 0.25,
    "chg_21d_pct": -3.85,
-   "ma20": 83026.6945,
-   "ma60": 81220.0085,
+   "ma20": 83026.698,
+   "ma60": 81220.0096,
    "low_52w": 58558.8594,
    "high_52w": 86602.9141,
    "pos_52w_pct": 82.1,
@@ -498,24 +526,28 @@
     81853.5391,
     82941.0,
     84011.9688,
-    81586.8672
+    81586.9375
    ],
-   "vol_last": 30870077440.0,
-   "vol_vs_5d_avg": 1.38,
+   "vol_last": 30713653248.0,
+   "vol_vs_5d_avg": 1.37,
    "vol_vs_20d_avg": 1.15,
    "vol_5d_vs_20d": 0.91,
    "group": "宏观",
-   "symbol": "BTC-USD"
+   "symbol": "BTC-USD",
+   "volume_unit": "成交量"
   }
  },
  "errors": [
-  "创业板指 399006.SZ: 数据太少",
-  "沪深300 000300.SS: 数据太少",
+  "科创50 em:1.000688: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
   "科创50 000688.SS: 数据太少",
-  "恒生科技 HSTECH.HK: 数据太少",
-  "恒生科技 ^HSTECH: 404 Client Error: Not Found for url: https://query1.finance.yahoo.com/v8/finance/chart/%5EHSTECH?range=2y&interval=1d",
-  "恒生医疗保健 ^HSHCI: 404 Client Error: Not Found for url: https://query1.finance.yahoo.com/v8/finance/chart/%5EHSHCI?range=2y&interval=1d",
+  "中证1000 em:1.000852: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+  "中证1000 000852.SS: 数据太少",
+  "恒生科技 em:124.HSTECH: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+  "恒生科技 em:100.HSTECH: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+  "恒生医疗保健 em:124.HSHCI: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+  "恒生医疗保健 em:100.HSHCI: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
   "离岸人民币USD/CNH CNH=X: 数据太少",
-  "EPU: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=60)"
+  "两市成交额: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+  "EPU: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=120)"
  ]
 }
