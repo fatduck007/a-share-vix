@@ -1,0 +1,45 @@
+name: A股恐慌指数每日计算
+
+on:
+  schedule:
+    # 北京时间周一至周五 15:37（UTC 07:37），收盘后运行；GitHub 定时可能延迟几分钟到半小时
+    - cron: "37 7 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安装依赖
+        run: pip install -r requirements.txt
+
+      - name: 抓取数据并计算
+        run: python run_daily.py
+
+      - name: 提交结果
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "没有新数据"
+          else
+            git commit -m "data: $(TZ=Asia/Shanghai date +%F)"
+            git pull --rebase
+            git push
+          fi
