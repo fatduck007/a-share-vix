@@ -19,16 +19,18 @@ UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.3
                     "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"}
 
 # (分组, 显示名, Yahoo 代码候选)
+# 代码前缀 em: 表示东方财富日线（带成交额，A股/港股用），其余为 Yahoo
 SYMBOLS = [
-    ("A股", "上证指数", ["000001.SS"]),
-    ("A股", "深证成指", ["399001.SZ"]),
-    ("A股", "创业板指", ["399006.SZ"]),
-    ("A股", "沪深300", ["000300.SS"]),
-    ("A股", "科创50", ["000688.SS"]),
-    ("港股", "恒生指数", ["^HSI"]),
-    ("港股", "恒生科技", ["HSTECH.HK", "^HSTECH", "3033.HK"]),
-    ("港股", "国企指数", ["^HSCE"]),
-    ("港股", "恒生医疗保健", ["^HSHCI", "3069.HK"]),
+    ("A股", "上证指数", ["em:1.000001", "000001.SS"]),
+    ("A股", "深证成指", ["em:0.399001", "399001.SZ"]),
+    ("A股", "创业板指", ["em:0.399006", "399006.SZ"]),
+    ("A股", "沪深300", ["em:1.000300", "000300.SS"]),
+    ("A股", "科创50", ["em:1.000688", "000688.SS"]),
+    ("A股", "中证1000", ["em:1.000852", "000852.SS"]),
+    ("港股", "恒生指数", ["em:100.HSI", "^HSI"]),
+    ("港股", "恒生科技", ["em:124.HSTECH", "em:100.HSTECH"]),
+    ("港股", "国企指数", ["em:100.HSCEI", "^HSCE"]),
+    ("港股", "恒生医疗保健", ["em:124.HSHCI", "em:100.HSHCI"]),
     ("美股", "标普500", ["^GSPC"]),
     ("美股", "纳斯达克综合", ["^IXIC"]),
     ("美股", "道琼斯", ["^DJI"]),
@@ -58,6 +60,26 @@ def yahoo_daily(sym: str) -> pd.DataFrame:
     df = pd.DataFrame({"close": q["close"], "volume": q.get("volume")}, index=idx)
     df = df[~df.index.duplicated(keep="last")].dropna(subset=["close"])
     return df
+
+
+def em_daily(secid: str) -> pd.DataFrame:
+    """东方财富日K：日期、收盘、成交额（元）。"""
+    url = "https://push2his.eastmoney.com/api/qt/stock/kline/get"
+    params = {"secid": secid, "klt": "101", "fqt": "1", "lmt": "520", "end": "20500101",
+              "fields1": "f1,f2,f3,f4,f5,f6", "fields2": "f51,f52,f53,f54,f55,f56,f57"}
+    r = requests.get(url, params=params, headers=UA, timeout=30)
+    r.raise_for_status()
+    kl = (r.json().get("data") or {}).get("klines") or []
+    rows = [k.split(",") for k in kl]
+    df = pd.DataFrame(rows, columns=["date", "open", "close", "high", "low", "vol", "amount"])
+    df["close"] = pd.to_numeric(df["close"], errors="coerce")
+    df["volume"] = pd.to_numeric(df["amount"], errors="coerce")  # 用成交额比较放量缩量
+    df.index = pd.to_datetime(df["date"]).dt.date
+    return df[["close", "volume"]].dropna(subset=["close"])
+
+
+def fetch(sym: str) -> pd.DataFrame:
+    return em_daily(sym[3:]) if sym.startswith("em:") else yahoo_daily(sym)
 
 
 def pct(a, b):
@@ -100,8 +122,17 @@ def summarize(df: pd.DataFrame) -> dict:
 
 def fred_series(sid: str) -> pd.Series:
     url = "https://fred.stlouisfed.org/graph/fredgraph.csv"
-    r = requests.get(url, params={"id": sid}, headers=UA, timeout=60)
-    r.raise_for_status()
+    last = None
+    for _ in range(3):
+        try:
+            r = requests.get(url, params={"id": sid}, headers=UA, timeout=120)
+            r.raise_for_status()
+            break
+        except Exception as e:  # noqa
+            last = e
+            time.sleep(5)
+    else:
+        raise last
     df = pd.read_csv(StringIO(r.text))
     df.columns = ["date", "value"]
     s = pd.to_numeric(df["value"], errors="coerce")
@@ -116,16 +147,33 @@ def main():
     for group, name, cands in SYMBOLS:
         for sym in cands:
             try:
-                df = yahoo_daily(sym)
+                df = fetch(sym)
                 if len(df) < 25:
                     raise ValueError("数据太少")
                 s = summarize(df)
-                s.update({"group": group, "symbol": sym})
+                s.update({"group": group, "symbol": sym,
+                          "volume_unit": "成交额(元)" if sym.startswith("em:") else "成交量"})
                 out["series"][name] = s
                 break
             except Exception as e:  # noqa
                 out["errors"].append(f"{name} {sym}: {e}")
             time.sleep(0.5)
+
+    # 沪深两市合计成交额（上证 + 深证成指成交额，东方财富口径）
+    try:
+        a = em_daily("1.000001")["volume"]
+        b = em_daily("0.399001")["volume"]
+        tot = (a + b).dropna()
+        out["series"]["沪深两市成交额"] = {
+            "group": "A股", "symbol": "em:上证+深成", "date": str(tot.index[-1]),
+            "close": round(float(tot.iloc[-1]) / 1e8, 0), "unit": "亿元",
+            "avg_5d": round(float(tot.iloc[-6:-1].mean()) / 1e8, 0),
+            "avg_20d": round(float(tot.iloc[-21:-1].mean()) / 1e8, 0),
+            "max_1y": round(float(tot.iloc[-250:].max()) / 1e8, 0),
+            "min_1y": round(float(tot.iloc[-250:].min()) / 1e8, 0),
+        }
+    except Exception as e:  # noqa
+        out["errors"].append(f"两市成交额: {e}")
 
     # 美国经济政策不确定性指数（日度，Baker-Bloom-Davis），FRED: USEPUINDXD
     try:
